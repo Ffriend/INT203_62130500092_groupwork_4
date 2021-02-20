@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PHOTO GALLERY</title>
+
+    <!-- https://google.github.io/material-design-icons/#icon-font-for-the-web -->
+    <!-- Using via Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <!-- https://tailwindcss.com/docs/installation -->
+    <!-- Using Tailwind via CDN -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+
+    <!-- <link href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" rel="stylesheet"> -->
+
+    <!-- https://v3.vuejs.org/guide/installation.html#release-notes -->
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link href="/tailwind.css" rel="stylesheet">
+</head>
+
+<body class="bg-blue-50">
+    <section id="app" class="overflow-hidden text-gray-700 body-font">
+        <!-- SEARCH -->
+        <p class="font-mono tracking-wider mx-auto font-bold text-5xl pt-7 m-3 pl-10 text-center">
+            PHOTO GALLERY ({{ countPic}})
+                <i class="cursor-pointer text-4xl material-icons" v-show="searchButton" @click="clickSearch">
+                search
+                </i>
+        </p>
+        <div class="mx-32 pl-96 pt-2 text-gray-600" v-show="searchBox">
+            <input class="font-mono border-2 border-gray-300 bg-white h-10 w-1/2 px-5 pr-16 rounded-lg text-sm focus:outline-none" v-model="searchInput" type="search" name="search" placeholder="Please enter text for searching photos">
+            <button class="font-mono mx-2 p-2 my-2 bg-blue-400 text-white rounded-md focus:outline-none focus:ring-2 ring-blue-200 ring-offset-2" @click="clickSearch">
+                Cancel
+            </button>
+        </div>
+        <!-- BIG PIC. -->
+        <div class="mx-auto w-6/12 h-auto bg-black px-5 py-3 mt-3 rounded-md" v-show="show">
+            <div class="w-full flex justify-end">
+                <i class="cursor-pointer material-icons text-white" @click="closeBigPic">
+                    disabled_by_default
+                </i>
+            </div>
+            <div class="pl-20 mb-5">
+                <img class="w-9/12 border-solid border-white border-4 rounded-xl mx-8" :src="photos[id].image">
+            </div>
+        </div>
+        <!-- PICTURE -->
+        <div class="container px-5 py-2 mx-auto lg:px-32">
+            <div class="flex flex-wrap justify-center mx-auto ">
+
+                <div class="w-full mt-6 lg:w-2/6 lg:pl-10 lg:py-6 lg:mt-0" v-if="searchPhotos.length !==0"
+                    v-for="(photo,index) in searchPhotos">
+                    <img :src="photo.image"
+                        class="cursor-pointer transform hover:scale-110 motion-reduce:transform-none duration-700 object-cover object-center w-full h-64 rounded-lg lg:h-auto"
+                        @click="clickBigPic(index)">
+                    <div class="flex flex-col items-start mt-8 sm:flex-row sm:items-center">
+                        <h1 class="cursor-pointer font-mono font-semibold tracking-wide flex-grow mb-2 text-2xl font-medium tracking-tighter text-gray-900 title-font"
+                            @click="clickHeart(index)">
+                            {{photo.name}}
+                        </h1>
+                        <!-- HEART -->
+                        <span class="inline-flex">
+                            <a
+                                class="inline-flex items-center justify-center w-10 h-10 text-white rounded-full bg-gradient-to-r">
+                                <i xmlns="http://www.w3.org/2000/svg" v-show="photo.done"
+                                    class="material-icons text-red-600 text-4xl icon icon-tabler icon-tabler-chevron-right"
+                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <polyline points="9 6 15 12 9 18" />favorite
+                                </i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="font-mono font-bold text-2xl mt-10" v-else>
+                    No photo.
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- my main.js -->
+    <script src="./main.js"></script>
+</body>
+
+</html>
